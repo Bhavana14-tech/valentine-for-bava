@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Valentine</title>
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(to bottom,#2b0d1f,#6a0572);
+    font-family:Georgia,serif;
+    color:white;
+    text-align:center;
+}
+
+/* headings */
+h1{font-size:40px;margin-top:30px}
+h2{color:#ffb6c1;font-weight:normal}
+
+/* buttons */
+button{
+    padding:12px 25px;
+    font-size:16px;
+    border:none;
+    border-radius:25px;
+    background:#ff4da6;
+    color:white;
+    cursor:pointer;
+    margin:10px;
+}
+button:hover{background:#ff1a8c}
+
+/* result text */
+#result{
+    font-size:24px;
+    margin-top:15px;
+    opacity:0;
+    transition:2s;
+}
+
+/* center image container */
+#imageContainer{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:30px;
+}
+
+/* valentine image */
+#valentineImg{
+    width:320px;
+    max-width:90%;
+    border-radius:25px;
+    box-shadow:0 0 40px #ff4da6;
+    display:none;
+    opacity:0;
+    transform:scale(0.8);
+    transition:opacity 1.5s ease, transform 1s ease;
+}
+#valentineImg.show{
+    opacity:1;
+    transform:scale(1);
+}
+
+/* floating hearts */
+.heart{
+    position:fixed;
+    color:#ff4da6;
+    pointer-events:none;
+}
+
+/* popups */
+#secretLetter,#giftsPopup{
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#fff0f6;
+    color:#2b0d1f;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 0 25px #ff4da6;
+    width:320px;
+    z-index:20;
+}
+
+/* gifts */
+.giftContainer{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-top:10px;
+}
+.giftImg{
+    width:90px;
+    border-radius:12px;
+    transform:scale(0);
+    opacity:0;
+    transition:0.5s;
+}
+.giftImg.show{
+    transform:scale(1);
+    opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Sukumar 💖</h1>
+<h2>My One & Only BAVA</h2>
+<h3>Will you be my Valentine forever?</h3>
+
+<button onclick="yesAnswer()">YES 💘</button>
+<button id="noBtn" onmouseover="moveNo()">NO 🙈</button>
+<button onclick="openLetter()">💌 Secret Love Letter</button>
+<button onclick="openGifts()">🎁 Special Valentine Gifts</button>
+
+<div id="result"></div>
+
+<div id="imageContainer">
+    <img id="valentineImg" src="valentine.png">
+</div>
+
+<!-- Love Letter -->
+<div id="secretLetter">
+<p>💖 You are my happiness, my strength, and my forever love.
+Every moment with you is special. Happy Valentine's Day! 💖</p>
+<button onclick="closeLetter()">Close</button>
+</div>
+
+<!-- Gifts -->
+<div id="giftsPopup">
+<h2>🎁 Special Valentine Gifts for You 🎁</h2>
+<div class="giftContainer">
+<img class="giftImg" src="rose.png">
+<img class="giftImg" src="teddy.png">
+<img class="giftImg" src="chocolate.png">
+<img class="giftImg" src="kiss.png">
+<img class="giftImg" src="hug.png">
+</div>
+<button onclick="closeGifts()">Close</button>
+</div>
+
+<audio id="music" loop>
+<source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let hearts;
+
+/* YES BUTTON */
+function yesAnswer(){
+    const result=document.getElementById("result");
+    const img=document.getElementById("valentineImg");
+    const music=document.getElementById("music");
+
+    result.innerHTML="I love you sooo much BAVA ❤️😘😘";
+    result.style.opacity=1;
+
+    img.style.display="block";
+    setTimeout(()=>img.classList.add("show"),50);
+
+    music.play().catch(()=>{});
+
+    if(!hearts) hearts=setInterval(createHeart,200);
+}
+
+/* RUNNING NO BUTTON */
+function moveNo(){
+    const btn=document.getElementById("noBtn");
+    btn.style.position="absolute";
+    btn.style.left=Math.random()*80+"%";
+    btn.style.top=Math.random()*80+"%";
+}
+
+/* FLOATING HEARTS */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.top="100vh";
+    heart.style.fontSize=(15+Math.random()*20)+"px";
+
+    document.body.appendChild(heart);
+
+    heart.animate([
+        {transform:"translateY(0)",opacity:1},
+        {transform:"translateY(-100vh)",opacity:0}
+    ],{duration:3000});
+
+    setTimeout(()=>heart.remove(),3000);
+}
+
+/* Love letter */
+function openLetter(){document.getElementById("secretLetter").style.display="block";}
+function closeLetter(){document.getElementById("secretLetter").style.display="none";}
+
+/* Gifts popup */
+function openGifts(){
+    const popup=document.getElementById("giftsPopup");
+    popup.style.display="block";
+    const gifts=popup.querySelectorAll(".giftImg");
+    gifts.forEach((g,i)=>{setTimeout(()=>g.classList.add("show"),i*200);});
+}
+function closeGifts(){document.getElementById("giftsPopup").style.display="none";}
+</script>
+
+</body>
+</html>
